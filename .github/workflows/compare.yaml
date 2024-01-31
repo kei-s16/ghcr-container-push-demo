@@ -1,0 +1,42 @@
+name: 'ビルド時間の比較'
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-with-buildx:
+    runs-on: ubuntu-latest
+    steps:
+    - name: "checkoutする"
+      uses: actions/checkout@v4
+    - name: "docker buildxが使えるようにする"
+      uses: docker/setup-buildx-action@v3
+    - name: "メタデータを作成する"
+      id: meta
+      uses: docker/metadata-action@v5
+      with:
+        images: ghcr.io/kei-s16/ghcr-container-push-demo
+        tags: |
+          type=raw,value=latest
+          type=sha,prefix=,suffix=,format=short
+    - name: "コンテナイメージをビルドする"
+      uses: docker/build-push-action@v5
+      with:
+        file: ./docker/Dockerfile
+        push: false
+        tags: ${{ steps.meta.outputs.tags }}
+        labels: ${{ steps.meta.outputs.labels }}
+
+  build-without-buildx:
+    runs-on: ubuntu-latest
+    steps:
+    - name: "checkoutする"
+      uses: actions/checkout@v4
+    - name: "コンテナイメージをビルドする"
+      run: |
+        docker build . \
+          -f ./docker/Dockerfile \
+          -t ghcr.io/kei-s16/ghcr-container-push-demo:latest \
+          --target runner
