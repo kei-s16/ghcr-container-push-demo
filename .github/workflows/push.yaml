@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - feature/use-cache
 
 jobs:
   build-and-push:
