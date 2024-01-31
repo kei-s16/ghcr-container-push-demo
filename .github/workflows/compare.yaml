@@ -1,9 +1,7 @@
 name: 'ビルド時間の比較'
 
 on:
-  push:
-    branches:
-      - main
+  workflow_call:
 
 jobs:
   build-with-buildx:
