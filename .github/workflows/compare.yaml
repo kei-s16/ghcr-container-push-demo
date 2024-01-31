@@ -1,14 +1,10 @@
 name: 'ビルド時間の比較'
 
 on:
-  push:
-    branches:
-      - main
-      - fix/resolve-dependencies
+  workflow_call:
 
 jobs:
   build-with-buildx:
-    needs: ['build-and-push']
     runs-on: ubuntu-latest
     steps:
     - name: "checkoutする"
@@ -32,7 +28,6 @@ jobs:
         labels: ${{ steps.meta.outputs.labels }}
 
   build-with-buildx-cached:
-    needs: ['build-and-push']
     runs-on: ubuntu-latest
     steps:
     - name: "checkoutする"
@@ -58,7 +53,6 @@ jobs:
         cache-from: type=registry,ref=ghcr.io/kei-s16/ghcr-container-push-demo:buildcache
 
   build-without-buildx:
-    needs: ['build-and-push']
     runs-on: ubuntu-latest
     steps:
     - name: "checkoutする"
