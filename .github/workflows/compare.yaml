@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - tmp/compare-build-time
 
 jobs:
   build-with-buildx:
