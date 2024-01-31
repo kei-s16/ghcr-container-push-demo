@@ -37,4 +37,6 @@ jobs:
         push: true
         tags: ${{ steps.meta.outputs.tags }}
         labels: ${{ steps.meta.outputs.labels }}
+        cache-from: type=registry,ref=ghcr.io/kei-s16/ghcr-container-push-demo:buildcache
+        cache-to: type=registry,ref=ghcr.io/kei-s16/ghcr-container-push-demo:buildcache,mode=max
 
